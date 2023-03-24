@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/infoInputFragment">
+
+    <fragment
+        android:id="@+id/infoInputFragment"
+        android:name="com.luukitoo.myapplication.fragment.InfoInputFragment"
+        android:label="InfoInputFragment"
+        tools:layout="@layout/fragment_info_input" >
+        <action
+            android:id="@+id/action_infoInputFragment_to_infoOutputFragment"
+            app:destination="@id/infoOutputFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoOutputFragment"
+        android:name="com.luukitoo.myapplication.fragment.InfoOutputFragment"
+        android:label="InfoOutputFragment"
+        tools:layout="@layout/fragment_info_output" />
+</navigation>
