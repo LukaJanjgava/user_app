@@ -1,4 +1,4 @@
-package com.luukitoo.myapplication.data;
+package com.luukitoo.myapplication.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

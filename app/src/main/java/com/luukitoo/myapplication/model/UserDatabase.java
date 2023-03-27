@@ -1,4 +1,4 @@
-package com.luukitoo.myapplication.data;
+package com.luukitoo.myapplication.model;
 
 import android.content.Context;
 
@@ -13,7 +13,6 @@ public abstract class UserDatabase extends RoomDatabase {
 
     public static UserDatabase getDatabase(Context context) {
         return Room.databaseBuilder(context, UserDatabase.class, "users_database")
-                .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build();
     }

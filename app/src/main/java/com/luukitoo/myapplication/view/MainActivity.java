@@ -1,8 +1,10 @@
-package com.luukitoo.myapplication;
+package com.luukitoo.myapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.luukitoo.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 

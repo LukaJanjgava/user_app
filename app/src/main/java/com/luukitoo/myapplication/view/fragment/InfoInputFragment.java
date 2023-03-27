@@ -1,4 +1,4 @@
-package com.luukitoo.myapplication.fragment;
+package com.luukitoo.myapplication.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,25 +8,24 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.luukitoo.myapplication.data.User;
-import com.luukitoo.myapplication.data.UserDao;
-import com.luukitoo.myapplication.data.UserDatabase;
+import com.luukitoo.myapplication.model.User;
+import com.luukitoo.myapplication.model.UserDao;
+import com.luukitoo.myapplication.model.UserDatabase;
 import com.luukitoo.myapplication.databinding.FragmentInfoInputBinding;
+import com.luukitoo.myapplication.viewmodel.InfoInputViewModel;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class InfoInputFragment extends Fragment {
 
-    private FragmentInfoInputBinding binding;
+    private InfoInputViewModel viewModel;
 
-    private CompositeDisposable disposables = new CompositeDisposable();
+    private FragmentInfoInputBinding binding;
 
     @Nullable
     @Override
@@ -38,7 +37,12 @@ public class InfoInputFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        init();
         setListeners();
+    }
+
+    private void init() {
+        viewModel = new ViewModelProvider(this).get(InfoInputViewModel.class);
     }
 
     private void setListeners() {
@@ -49,32 +53,12 @@ public class InfoInputFragment extends Fragment {
                     Integer.parseInt(binding.ageEditText.getText().toString()),
                     binding.genderSpinner.getSelectedItem().toString()
             );
-            saveUser(user);
+            viewModel.saveUser(user);
         });
         binding.showButton.setOnClickListener(view -> {
             Navigation.findNavController(view).navigate(
                     InfoInputFragmentDirections.actionInfoInputFragmentToInfoOutputFragment()
             );
         });
-    }
-
-    private void saveUser(User user) {
-        UserDao userDao = UserDatabase.getDatabase(requireContext()).getUserDao();
-        disposables.add(
-                Observable.just(true)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .flatMap(bool -> {
-                            userDao.addUser(user);
-                            return Observable.just(true);
-                        })
-                        .subscribe(bool -> { })
-        );
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        disposables.clear();
     }
 }
